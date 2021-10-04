@@ -36,9 +36,9 @@ class CatsListFragment : Fragment() {
             }
         )
 
-        val marginSize = getString(R.dimen.padding).substringBefore(".").toInt()
+        val marginSize = resources.getDimension(R.dimen.padding).toInt()
 
-        binding.list.addItemDecoration(MarginItemDecoration(marginSize))
+        binding.list.addItemDecoration(CatGridAdapter.MarginItemDecoration(marginSize))
         binding.list.adapter = adapter
 
         lifecycleScope.launch {
@@ -74,4 +74,3 @@ class CatsListFragment : Fragment() {
         }
     }
 }
-

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.catapi.network.CatApiStatus
 
+// from https://developer.android.com/courses/kotlin-android-fundamentals/toc#lesson_8_connecting_to_the_internet
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
     imgUrl?.let {
@@ -24,7 +25,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
     }
 }
 
-@BindingAdapter("marsApiStatus")
+@BindingAdapter("catApiStatus")
 fun bindStatus(statusImageView: ImageView, status: CatApiStatus?) {
     when (status) {
         CatApiStatus.LOADING -> {

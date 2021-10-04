@@ -1,6 +1,8 @@
 package com.example.catapi.ui.list
 
+import android.graphics.Rect
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -43,5 +45,22 @@ class CatGridAdapter(private val onClickListener: OnClickListener) :
 
     class OnClickListener(val clickListener: (cat: Cat?) -> Unit) {
         fun onClick(cat: Cat?) = clickListener(cat)
+    }
+    class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            with(outRect) {
+                if (parent.getChildAdapterPosition(view) == 0) {
+                    top = spaceSize
+                }
+                left = spaceSize
+                right = spaceSize
+                bottom = spaceSize
+            }
+        }
     }
 }

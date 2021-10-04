@@ -11,9 +11,8 @@ import com.example.catapi.network.Cat
 import com.example.catapi.network.CatApi
 import com.example.catapi.network.CatApiStatus
 import com.example.catapi.ui.CatPagingSource
-import com.example.catapi.ui.StatusChangedListener
 
-class CatViewModel : ViewModel(), StatusChangedListener {
+class CatViewModel : ViewModel(), CatPagingSource.StatusChangedListener {
     val catsFlow = Pager(
         config = PagingConfig(
             pageSize = CATS_PAGE_SIZE

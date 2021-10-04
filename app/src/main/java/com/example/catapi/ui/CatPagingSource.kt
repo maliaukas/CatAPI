@@ -9,12 +9,6 @@ import com.example.catapi.ui.list.CatViewModel.Companion.CATS_PAGE_SIZE
 import java.io.IOException
 import retrofit2.HttpException
 
-private const val CATS_STARTING_PAGE_INDEX = 0
-
-interface StatusChangedListener {
-    fun onStatusChanged(status: CatApiStatus)
-}
-
 class CatPagingSource(
     private val catApiService: CatApiService,
     private val statusChangedListener: StatusChangedListener
@@ -57,5 +51,13 @@ class CatPagingSource(
             statusChangedListener.onStatusChanged(CatApiStatus.ERROR)
             LoadResult.Error(exception)
         }
+    }
+
+    companion object {
+        private const val CATS_STARTING_PAGE_INDEX = 0
+    }
+
+    interface StatusChangedListener {
+        fun onStatusChanged(status: CatApiStatus)
     }
 }
