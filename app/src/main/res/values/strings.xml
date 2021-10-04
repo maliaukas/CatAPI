@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CatAPI</string>
+    <string name="selected_cat_image">Selected cat image</string>
+    <string name="save_image_into_memory">Save image into memory</string>
+    <string name="loading_status">Loading status</string>
+    <string name="saved_to_gallery">Saved to gallery</string>
+</resources>
