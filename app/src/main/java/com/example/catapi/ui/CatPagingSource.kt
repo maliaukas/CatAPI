@@ -11,7 +11,7 @@ import retrofit2.HttpException
 
 class CatPagingSource(
     private val catApiService: CatApiService,
-    private val statusChangedListener: StatusChangedListener
+    private val onStatusChanged: (status: CatApiStatus) -> Unit
 ) :
     PagingSource<Int, Cat>() {
 
@@ -25,7 +25,7 @@ class CatPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Cat> {
         val position = params.key ?: CATS_STARTING_PAGE_INDEX
 
-        statusChangedListener.onStatusChanged(CatApiStatus.LOADING)
+        onStatusChanged(CatApiStatus.LOADING)
 
         return try {
             val cats = catApiService.getCats(params.loadSize, position)
@@ -41,23 +41,19 @@ class CatPagingSource(
                 nextKey = nextKey
             )
 
-            statusChangedListener.onStatusChanged(CatApiStatus.DONE)
+            onStatusChanged(CatApiStatus.DONE)
 
             result
         } catch (exception: IOException) {
-            statusChangedListener.onStatusChanged(CatApiStatus.ERROR)
+            onStatusChanged(CatApiStatus.ERROR)
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
-            statusChangedListener.onStatusChanged(CatApiStatus.ERROR)
+            onStatusChanged(CatApiStatus.ERROR)
             LoadResult.Error(exception)
         }
     }
 
     companion object {
         private const val CATS_STARTING_PAGE_INDEX = 0
-    }
-
-    interface StatusChangedListener {
-        fun onStatusChanged(status: CatApiStatus)
     }
 }

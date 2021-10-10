@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.catapi.databinding.CatItemBinding
 import com.example.catapi.network.Cat
 
-class CatGridAdapter(private val onClickListener: OnClickListener) :
+class CatGridAdapter(private val onClickListener: (cat: Cat?) -> Unit) :
     PagingDataAdapter<Cat, CatGridAdapter.CatViewHolder>(DiffCallback) {
 
     class CatViewHolder(private var binding: CatItemBinding) :
@@ -28,7 +28,7 @@ class CatGridAdapter(private val onClickListener: OnClickListener) :
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
         val marsProperty = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(marsProperty)
+            onClickListener(marsProperty)
         }
         holder.bind(marsProperty)
     }
@@ -43,9 +43,6 @@ class CatGridAdapter(private val onClickListener: OnClickListener) :
         }
     }
 
-    class OnClickListener(val clickListener: (cat: Cat?) -> Unit) {
-        fun onClick(cat: Cat?) = clickListener(cat)
-    }
     class MarginItemDecoration(private val spaceSize: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect,
