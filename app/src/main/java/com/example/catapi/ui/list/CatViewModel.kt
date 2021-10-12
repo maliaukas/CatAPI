@@ -12,12 +12,12 @@ import com.example.catapi.network.CatApi
 import com.example.catapi.network.CatApiStatus
 import com.example.catapi.ui.CatPagingSource
 
-class CatViewModel : ViewModel(), CatPagingSource.StatusChangedListener {
+class CatViewModel : ViewModel() {
     val catsFlow = Pager(
         config = PagingConfig(
             pageSize = CATS_PAGE_SIZE
         ),
-        pagingSourceFactory = { CatPagingSource(CatApi.retrofitService, this) }
+        pagingSourceFactory = { CatPagingSource(CatApi.retrofitService, this::onStatusChanged) }
     ).flow.cachedIn(viewModelScope)
 
     private val _status = MutableLiveData<CatApiStatus>()
@@ -36,7 +36,7 @@ class CatViewModel : ViewModel(), CatPagingSource.StatusChangedListener {
         _navigateToSelectedCat.value = null
     }
 
-    override fun onStatusChanged(status: CatApiStatus) {
+    private fun onStatusChanged(status: CatApiStatus) {
         _status.value = status
     }
 
