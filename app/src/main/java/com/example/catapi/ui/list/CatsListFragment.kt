@@ -24,21 +24,32 @@ class CatsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        val binding = setupBinding(inflater)
+
+        setupAdapter(binding)
+
+        setupNavigation()
+
+        return binding.root
+    }
+
+    private fun setupBinding(inflater: LayoutInflater): CatListFragmentBinding {
         val binding = CatListFragmentBinding.inflate(inflater)
 
         binding.lifecycleOwner = this
-
         binding.viewModel = viewModel
 
-        val adapter = CatGridAdapter(
-            CatGridAdapter.OnClickListener {
-                viewModel.displayCatDetails(it)
-            }
-        )
+        return binding
+    }
+
+    private fun setupAdapter(binding: CatListFragmentBinding) {
+        val adapter = CatGridAdapter {
+            viewModel.displayCatDetails(it)
+        }
 
         val marginSize = resources.getDimension(R.dimen.padding).toInt()
-
         binding.list.addItemDecoration(CatGridAdapter.MarginItemDecoration(marginSize))
+
         binding.list.adapter = adapter
 
         lifecycleScope.launch {
@@ -46,7 +57,9 @@ class CatsListFragment : Fragment() {
                 adapter.submitData(pagingData)
             }
         }
+    }
 
+    private fun setupNavigation() {
         viewModel.navigateToSelectedCat.observe(viewLifecycleOwner, {
             if (it != null) {
                 this
@@ -59,8 +72,6 @@ class CatsListFragment : Fragment() {
                 viewModel.displayCatDetailsComplete()
             }
         })
-
-        return binding.root
     }
 
     companion object {
